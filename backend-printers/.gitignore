@@ -1,0 +1,4 @@
+node_modules
+/logo.png
+/dist
+/yarn*

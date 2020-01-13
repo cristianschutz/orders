@@ -1,0 +1,41 @@
+{
+  "name": "electron-quick-start",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder -mw --dir",
+    "dist": "electron-builder -mw",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "pedidos-app",
+    "mac": {
+      "category": "orders"
+    },
+    "win": {
+      "publisherName": "pedidos-app"
+    }
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "Electron",
+    "express",
+    "reactjs"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^7.1.3",
+    "electron-builder": "^21.2.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "date-fns": "^2.8.1",
+    "express": "^4.17.1",
+    "firebase": "^7.6.2",
+    "html-to-text": "^5.1.1",
+    "node-thermal-printer": "^4.1.0"
+  }
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Pedidos</title>
+  </head>
+  <style>
+    * {
+      padding: 0;
+      box-sizing: content-box;
+    }
+
+    html {
+      height: 100vh;
+    }
+    header {
+      width: 100%;
+    }
+
+    header img {
+      max-width: 200px;
+      margin: 0 auto 10px;
+      display: block;
+    }
+
+    body {
+      align-content: center;
+      align-items: center;
+      background: #000;
+      box-sizing: border-box;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      font-family: Arial, Helvetica, sans-serif;
+      justify-content: center;
+      margin: 0;
+      padding: 30px 0;
+      text-align: center;
+      height: 100vh;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+      font-family: Arial, Helvetica, sans-serif;
+      color: #fff;
+      font-size: 400;
+      margin: 0;
+    }
+
+    h2 {
+      font-size: 30px;
+    }
+
+    h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  </style>
+  <body>
+    <header>
+      <img src="logo.png" alt="" />
+    </header>
+
+    <h2>Bem Vindo!</h2>
+
+    <h3>Pedidos App de Impressão</h3>
+
+    <p>Informações para o funcionamento do sistema de impressão:</p>
+
+    <p>
+      <small>
+        Configure as impressores com os ips:
+        <strong>192.168.0.98 e 192.168.0.99</strong>.
+      </small>
+    </p>
+
+    <p class="logs"></p>
+
+    <!-- You can also require other files to run in this process -->
+    <script src="https://www.gstatic.com/firebasejs/7.6.2/firebase.js"></script>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
