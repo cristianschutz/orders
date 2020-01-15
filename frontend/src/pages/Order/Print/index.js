@@ -11,7 +11,7 @@ import {
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { auth, database } from "../../../services/fireabase";
-import logo from "../../../assets/logo.jpg";
+// import logo from "../../../assets/logo.jpg";
 
 export default function Print() {
   const context = useContext(orderContext);
@@ -59,7 +59,7 @@ export default function Print() {
   return (
     <Step id="print">
       <StepHeader>
-        <img src={logo} alt="Logo" />
+        <img src={process.env.REACT_APP_logo} alt="Logo" />
       </StepHeader>
       <Title>Pedido</Title>
       <Table>

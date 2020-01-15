@@ -4,14 +4,14 @@ import { auth } from "../../services/fireabase";
 import { useHistory } from "react-router-dom";
 
 import { Step, StepHeader, StepButtons } from "../../styles/global";
-import logo from "../../assets/logo.jpg";
+// import logo from "../../assets/logo.jpg";
 
 export default function Dashboard() {
   let history = useHistory();
   return (
     <Step id="dashboard">
       <StepHeader>
-        <img src={logo} alt="Logo" />
+        <img src={process.env.REACT_APP_logo} alt="Logo" />
       </StepHeader>
 
       <StepButtons>

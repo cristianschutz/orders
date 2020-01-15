@@ -4,7 +4,7 @@ import { Title, Table } from "./styles";
 import { Step, StepHeader, StepButtons } from "../../styles/global";
 import { format } from "date-fns";
 import { database } from "../../services/fireabase";
-import logo from "../../assets/logo.jpg";
+// import logo from "../../assets/logo.jpg";
 
 export default function History() {
   let history = useHistory();
@@ -32,7 +32,7 @@ export default function History() {
   return (
     <Step id="print">
       <StepHeader>
-        <img src={logo} alt="Logo" />
+        <img src={process.env.REACT_APP_logo} alt="Logo" />
       </StepHeader>
 
       <Title>Histórico</Title>

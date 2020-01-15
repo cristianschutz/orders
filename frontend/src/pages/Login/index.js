@@ -4,7 +4,7 @@ import { InputGroup, StepHeader, StepButtons } from "../../styles/global";
 import { auth } from "../../services/fireabase";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-import logo from "../../assets/logo.jpg";
+// import logo from "../../assets/logo.jpg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ export default function Login() {
     <PageLogin>
       <div>
         <StepHeader>
-          <img src={logo} alt="Logo" />
+          <img src={process.env.REACT_APP_logo} alt="Logo" />
         </StepHeader>
         <form
           action=""

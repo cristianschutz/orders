@@ -8,7 +8,7 @@ import {
   CheckGroup
 } from "../../../styles/global";
 import { useHistory } from "react-router-dom";
-import logo from "../../../assets/logo.jpg";
+// import logo from "../../../assets/logo.jpg";
 
 export default function Product() {
   // contextapi
@@ -99,7 +99,7 @@ export default function Product() {
   return (
     <Step id="order">
       <StepHeader>
-        <img src={logo} alt="Logo" />
+        <img src={process.env.REACT_APP_logo} alt="Logo" />
       </StepHeader>
       <form
         action=""

@@ -8,7 +8,7 @@ import {
   StepButtons,
   InputGroup
 } from "../../../styles/global";
-import logo from "../../../assets/logo.jpg";
+// import logo from "../../../assets/logo.jpg";
 
 export default function Client() {
   const context = useContext(orderContext);
@@ -20,7 +20,7 @@ export default function Client() {
   return (
     <Step id="table">
       <StepHeader>
-        <img src={logo} alt="Logo" />
+        <img src={process.env.REACT_APP_logo} alt="Logo" />
       </StepHeader>
       <form
         action=""
