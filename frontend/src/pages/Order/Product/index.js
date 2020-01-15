@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { orderContext, catalog } from "../../../store";
+import React, { useContext, useState, useEffect } from "react";
+import { orderContext, catalog as cat } from "../../../store";
 import {
   Step,
   StepHeader,
@@ -11,67 +11,89 @@ import { useHistory } from "react-router-dom";
 import logo from "../../../assets/logo.jpg";
 
 export default function Product() {
-  const [categories, setCategories] = useState(catalog);
-  const [category, setCategory] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [product, setProduct] = useState([]);
-  const [additionals, setAdditionals] = useState([]);
-  const [additional, setAdditional] = useState([]);
-  const [additionalCount, setAdditionalCount] = useState();
-  const [qty, setQty] = useState(1);
-
-  const [countProduct, setCountProduct] = useState(1);
-  const [countProductQty, setCountProductQty] = useState(0);
-  const [countTotal, setCountTotal] = useState(0);
+  // contextapi
   const context = useContext(orderContext);
-  let history = useHistory();
 
+  // catalog states
+  const [catalog, setCatalog] = useState([]);
+  const [catalogProducts, setCatalogProducts] = useState([]);
+  const [catalogAdditional, setCatalogAdditional] = useState([]);
+
+  // order states
+  const [orderCategory, setOrderCategory] = useState([]);
+  const [orderProduct, setOrderProduct] = useState([]);
+  const [orderAdditional, setOrderAdditional] = useState([]);
+
+  const [orderProductPrice, setOrderProductPrice] = useState(0);
+  const [orderAdditionalPrice, setOrderAdditionalPrice] = useState(0);
+  const [orderPrice, setOrderPrice] = useState(0);
+  const [orderQty, setOrderQty] = useState(1);
+
+  let history = useHistory();
   if (!context.infos) {
     history.push("/order/client");
   }
+
+  useEffect(() => {
+    setCatalog(cat);
+  }, []);
 
   function changeCategory(e) {
     let val = e.target.value;
     let filter = catalog && catalog.filter(e => e.name === val);
     if (filter.length) {
-      setProducts(filter[0].options);
+      setCatalogProducts(filter[0].options);
     }
-    setCategory(val);
+    setOrderCategory(val);
   }
 
   function changeProduct(e) {
     let val = e.target.value;
-    let filter = products && products.filter(e => e.name === val);
-    if (filter) {
-      setAdditionals(
-        filter[0].options.map((item, index) => {
-          item.isChecked = false;
-          return item;
-        })
-      );
-      setProduct(val);
-      setCountProduct(filter[0].price);
-      setCountProductQty(filter[0].price);
+    let filter = catalogProducts && catalogProducts.filter(e => e.name === val);
+    if (filter.length) {
+      let remakearray = filter[0].options.map((item, index) => {
+        item.isChecked = false;
+        return item;
+      });
+      setCatalogAdditional(remakearray);
+      setOrderProduct(val);
+      setOrderProductPrice(filter[0].price);
+      sum(filter[0].price, orderAdditionalPrice, orderQty);
     }
   }
 
   function changeAdicional(e) {
-    let add = additionals;
+    let add = catalogAdditional;
     add.map(item => {
       if (item.name === e.target.value) {
         item.isChecked = !item.isChecked;
       }
       return item;
     });
-    setAdditional(add);
+    setCatalogAdditional(add);
 
-    let total = additionals.map(a => {
+    let checked = "";
+    catalogAdditional.map(a => {
+      if (a.isChecked === true && a.name) {
+        checked += a.name + ",";
+      }
+    });
+    let newStr = checked.substring(0, checked.length - 1);
+    setOrderAdditional(newStr);
+
+    let total = catalogAdditional.map(a => {
       return a.isChecked === true && a.price;
     });
+
     total = total.length > 0 ? total.reduce((a, b) => a + b) : 0;
-    setAdditionalCount(total);
-    setQty(1);
-    return false;
+    setOrderAdditionalPrice(total);
+    setOrderQty(1);
+    sum(orderProductPrice, total, orderQty);
+  }
+
+  function sum(prod, add, qty) {
+    console.log(prod, add, qty);
+    setOrderPrice((prod + add) * qty);
   }
 
   return (
@@ -86,12 +108,13 @@ export default function Product() {
         }}
         onSubmit={e => {
           context.orderChange(e, {
-            category,
-            product,
-            additional,
-            qty,
-            countProduct,
-            price: countProductQty
+            category: orderCategory,
+            product: orderProduct,
+            productPrice: orderProductPrice,
+            additional: orderAdditional,
+            additionalPrice: orderAdditionalPrice,
+            qty: orderQty,
+            price: orderPrice
           });
         }}
       >
@@ -99,8 +122,8 @@ export default function Product() {
           <label htmlFor="categoria">Categoria</label>
           <select id="categoria" onChange={e => changeCategory(e)}>
             <option></option>
-            {categories &&
-              categories.map((item, index) => {
+            {catalog &&
+              catalog.map((item, index) => {
                 return (
                   <option key={index} defaultValue={item.name}>
                     {item.name}
@@ -119,8 +142,8 @@ export default function Product() {
           <label htmlFor="produto">Produto</label>
           <select onChange={e => changeProduct(e)} id="produto">
             <option></option>
-            {products &&
-              products.map((item, index) => {
+            {catalogProducts &&
+              catalogProducts.map((item, index) => {
                 return (
                   <option key={index} defaultValue={item.name}>
                     {item.name}
@@ -129,21 +152,18 @@ export default function Product() {
               })}
           </select>
           <svg viewBox="0 0 256 512">
-            <path
-              fill="currentColor"
-              d="M119.5 326.9L3.5 209.1c-4.7-4.7-4.7-12.3 0-17l7.1-7.1c4.7-4.7 12.3-4.7 17 0L128 287.3l100.4-102.2c4.7-4.7 12.3-4.7 17 0l7.1 7.1c4.7 4.7 4.7 12.3 0 17L136.5 327c-4.7 4.6-12.3 4.6-17-.1z"
-            ></path>
+            <path d="M119.5 326.9L3.5 209.1c-4.7-4.7-4.7-12.3 0-17l7.1-7.1c4.7-4.7 12.3-4.7 17 0L128 287.3l100.4-102.2c4.7-4.7 12.3-4.7 17 0l7.1 7.1c4.7 4.7 4.7 12.3 0 17L136.5 327c-4.7 4.6-12.3 4.6-17-.1z"></path>
           </svg>
         </InputGroup>
-        {additionals.length > 0 && (
+
+        {catalogAdditional.length > 0 && (
           <CheckGroup>
             <h6>Adicional</h6>
-            {additionals.map((item, index) => {
+            {catalogAdditional.map((item, index) => {
               return (
-                <label>
+                <label key={item.name}>
                   <input
                     type="checkbox"
-                    key={item.name}
                     onClick={e => {
                       changeAdicional(e);
                     }}
@@ -175,22 +195,19 @@ export default function Product() {
           <input
             type="number"
             onChange={e => {
-              setQty(e.target.value);
+              setOrderQty(Number(e.target.value));
+              sum(
+                orderProductPrice,
+                orderAdditionalPrice,
+                Number(e.target.value)
+              );
             }}
-            value={qty}
+            value={orderQty}
           />
         </InputGroup>
         <InputGroup width="48%">
           <label>Total</label>
-          <input
-            type="number"
-            onChange={e => setCountProductQty(e.target.value)}
-            value={
-              (countProduct + additionalCount) * qty
-                ? (countProduct + additionalCount) * qty
-                : countProduct * qty
-            }
-          />
+          <input type="number" value={orderPrice} disabled />
         </InputGroup>
         <StepButtons>
           <button

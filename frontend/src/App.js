@@ -12,7 +12,7 @@ function App() {
 
   function orderReset() {
     setOrder([]);
-    setInfos();
+    setInfos("");
   }
 
   function orderChange(e, newOrder = [], infos = "") {

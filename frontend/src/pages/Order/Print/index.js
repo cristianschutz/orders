@@ -8,7 +8,6 @@ import {
   StepButtons,
   InputGroup
 } from "../../../styles/global";
-import { api } from "../../../services/api";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import { auth, database } from "../../../services/fireabase";
@@ -27,7 +26,7 @@ export default function Print() {
 
   async function save() {
     const data = {
-      user: auth.currentUser.providerData,
+      user: auth.currentUser.providerData[0],
       client: infos.client,
       type: infos.table,
       observation: observation ? observation : "",
@@ -40,9 +39,9 @@ export default function Print() {
       .set(data)
       .then(docref => {
         toast.success("Pedido salvo");
+        context.orderReset();
       })
       .catch(error => {
-        console.log(error);
         toast.error("Pedido não salvo!");
       });
   }
@@ -50,18 +49,10 @@ export default function Print() {
   async function send() {
     infos.data = format(new Date(), "HH:mm:ss - dd/MM/yyyy");
     try {
-      // await api.post("print", {
-      //   observation,
-      //   order,
-      //   infos
-      // });
-      // toast.success("Pedido enviado");
       save();
       history.push("/order/client");
     } catch (err) {
-      toast.error(
-        "Não foi possivel imprimir, verifique se as impressoras estão conectadas!"
-      );
+      toast.error("Não foi possível emitir o pedido!");
     }
   }
 
@@ -87,9 +78,12 @@ export default function Print() {
                 <tr key={index}>
                   <td>
                     {item.category} - {item.product}
+                    {item.additional && " - Adicional: " + item.additional}
                   </td>
                   <td>{item.qty}</td>
-                  <td>R$ {item.price}</td>
+                  <td>
+                    R$ {(item.productPrice + item.additionalPrice) * item.qty}
+                  </td>
                   <td>
                     <button onClick={e => context.orderDel(index)}>
                       <svg
@@ -143,7 +137,7 @@ export default function Print() {
       <StepButtons>
         <button
           onClick={e => {
-            history.push("/order/client");
+            history.push("/order/product");
           }}
         >
           VOLTAR

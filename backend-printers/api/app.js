@@ -49,13 +49,6 @@ ref.once("value", function(snap) {
           removeSpecialCharacters: true
         });
 
-        let additional;
-        if (item.additional) {
-          item.additional.map(item => {
-            additional += item.name + " | ";
-          });
-        }
-
         printer.drawLine();
         printer.tableCustom([
           {
@@ -75,7 +68,7 @@ ref.once("value", function(snap) {
               align: "LEFT",
               width: 0.5
             },
-            { text: adicional, align: "LEFT", width: 0.25 },
+            { text: item.additional, align: "LEFT", width: 0.25 },
             { text: item.qty, align: "CENTER", width: 0.25 },
             { text: "R$ " + item.price, align: "RIGHT", width: 0.25 }
           ]);

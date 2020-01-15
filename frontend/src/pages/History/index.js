@@ -11,13 +11,6 @@ export default function History() {
   const [order, setOrder] = useState([]);
 
   useEffect(() => {
-    //   // db.collection("orders")
-    //   //   .get()
-    //   //   .then(querySnapshot => {
-    //   //     const data = querySnapshot.docs.map(doc => doc.data());
-    //   //     console.log(data); // array of cities objects
-    //   //     setOrder(data);
-    //   //   });
     var ref = database.ref("orders");
     console.log("ref", ref.database);
     // Attach an asynchronous callback to read the data at our posts reference
