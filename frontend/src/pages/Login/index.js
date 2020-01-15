@@ -28,7 +28,6 @@ export default function Login() {
   }
 
   async function loginGetUser() {
-    console.log("loginGetUser");
     let user = auth.currentUser;
     if (user != null) {
       user.providerData.forEach(function(profile) {
@@ -43,7 +42,7 @@ export default function Login() {
 
   useEffect(() => {
     loginGetUser();
-  }, [""]);
+  }, []);
 
   return (
     <PageLogin>
