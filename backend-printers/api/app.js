@@ -5,7 +5,10 @@ const Types = require("node-thermal-printer").types;
 var htmlLog =
   "<h6 style='margin: 30px 0 10px;font-size: 16px;text-align: left;'>Erros:</h6>";
 var addresses = ["tcp://192.168.0.98:9100", "tcp://192.168.0.99:9100"];
-const electron = require("electron");
+// const electron = require("electron");
+require("dotenv").config();
+
+console.log(process.env);
 
 const firebaseApp = firebase.initializeApp({
   apiKey: process.env.ELECTRON_WEBPACK_APP_apiKey,
@@ -21,25 +24,37 @@ const firebaseApp = firebase.initializeApp({
 // export const db = firebaseApp.firestore();
 const db = firebaseApp.database();
 // const auth = firebaseApp.auth();
-
 var start = 0;
 var ref = db.ref("orders");
-ref.on(
-  "value",
-  function(snapshot) {
+
+var count = 0;
+var countTotal = 0;
+ref.once("value", function(snap) {
+  console.log("initial data loaded!", snap.numChildren() === count);
+  countTotal = snap.numChildren();
+
+  ref.on("child_added", function(snapshot, prevChildKey) {
     let sendLog = "";
-    let order = snapshot.val().order;
-    let infos = snapshot.val().infos;
-    let observation = snapshot.val().observation;
-    console.log("order", order);
-    start++;
-    if ((order || infos) && start > 1) {
+
+    // check if is not first loaded data
+    if (count > countTotal) {
+      let order = snapshot.val().order;
+      let observation = snapshot.val().observation;
+      let infos = snapshot.val().infos;
+
       addresses.map(address => {
         let printer = new ThermalPrinter({
           type: Types.EPSON,
           interface: address,
           removeSpecialCharacters: true
         });
+
+        let additional;
+        if (item.additional) {
+          item.additional.map(item => {
+            additional += item.name + " | ";
+          });
+        }
 
         printer.drawLine();
         printer.tableCustom([
@@ -49,6 +64,7 @@ ref.on(
             width: 0.5,
             bold: true
           },
+          { text: "ADICIONAL", align: "CENTER", width: 0.25, bold: true },
           { text: "QUANTIDADE", align: "CENTER", width: 0.25, bold: true },
           { text: "PREÇO", align: "RIGHT", width: 0.25, bold: true }
         ]);
@@ -59,6 +75,7 @@ ref.on(
               align: "LEFT",
               width: 0.5
             },
+            { text: adicional, align: "LEFT", width: 0.25 },
             { text: item.qty, align: "CENTER", width: 0.25 },
             { text: "R$ " + item.price, align: "RIGHT", width: 0.25 }
           ]);
@@ -91,11 +108,8 @@ ref.on(
         sendLog = send(printer, address);
       });
     }
-  },
-  function(errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  }
-);
+  });
+});
 
 // server
 var app = express();
