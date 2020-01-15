@@ -68,7 +68,11 @@ ref.once("value", function(snap) {
               align: "LEFT",
               width: 0.5
             },
-            { text: item.additional, align: "LEFT", width: 0.25 },
+            {
+              text: item.additional ? item.additional : "--",
+              align: "LEFT",
+              width: 0.25
+            },
             { text: item.qty, align: "CENTER", width: 0.25 },
             { text: "R$ " + item.price, align: "RIGHT", width: 0.25 }
           ]);
