@@ -3,12 +3,22 @@ import Routes from "./routes";
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { OrderProvider } from "./store";
+import { auth } from "./services/fireabase";
 import GlobalStyle from "./styles/global";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [order, setOrder] = useState([]);
   const [infos, setInfos] = useState();
+  const [user, setUser] = useState(false);
+
+  auth.onAuthStateChanged(function(userData) {
+    if (userData) {
+      setUser(userData);
+    } else {
+      setUser(false);
+    }
+  });
 
   function orderReset() {
     setOrder([]);
@@ -36,7 +46,9 @@ function App() {
   }
 
   return (
-    <OrderProvider value={{ order, infos, orderChange, orderDel, orderReset }}>
+    <OrderProvider
+      value={{ user, order, infos, orderChange, orderDel, orderReset }}
+    >
       <Routes />
       <GlobalStyle />
       <ToastContainer autoClose={2000} />

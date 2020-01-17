@@ -36,6 +36,8 @@ export const Container = styled.div`
 `;
 
 export const StepHeader = styled.header`
+  text-align: center;
+
   img {
     margin: 0 auto;
     max-width: 200px;

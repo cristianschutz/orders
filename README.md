@@ -1,5 +1,19 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## .env values
+
+REACT_APP_apiKey=fireabaseconfighere
+REACT_APP_authDomain=fireabaseconfighere
+REACT_APP_databaseURL=fireabaseconfighere
+REACT_APP_projectId=fireabaseconfighere
+REACT_APP_storageBucket=fireabaseconfighere
+REACT_APP_messagingSenderId=fireabaseconfighere
+REACT_APP_appId=fireabaseconfighere
+REACT_APP_measurementId=fireabaseconfighere
+REACT_APP_logo=link to your logo
+
+PS.: if you use heroku to deploy, just add this vars into Settings > Config Vars
+
 ## Available Scripts
 
 In the project directory, you can run:

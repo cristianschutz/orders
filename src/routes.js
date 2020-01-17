@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { auth } from "./services/fireabase";
 import Dashboard from "./pages/Dashboard/";
 import Login from "./pages/Login/";
 import History from "./pages/History/";
-
+import { orderContext } from "./store";
 import Client from "./pages/Order/Client/";
 import Print from "./pages/Order/Print/";
 import Product from "./pages/Order/Product/";
 
 export default function Routes() {
-  const [user, setUser] = useState(false);
-  auth.onAuthStateChanged(function(userData) {
-    if (userData) {
-      setUser(userData);
-    } else {
-      setUser(false);
-    }
-  });
+  const context = useContext(orderContext);
+  let user = context.user;
 
   return (
     <BrowserRouter>
@@ -49,6 +42,10 @@ export default function Routes() {
         <Route
           path="/history"
           component={() => (user ? <History /> : <Login />)}
+        />
+        <Route
+          path="/dashboard"
+          component={() => (user ? <Dashboard /> : <Login />)}
         />
       </Switch>
     </BrowserRouter>
