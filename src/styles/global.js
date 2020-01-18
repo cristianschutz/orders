@@ -198,3 +198,16 @@ export const InputGroup = styled.div`
     }
   }
 `;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding-top: 50px;
+`;

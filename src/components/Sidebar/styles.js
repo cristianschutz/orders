@@ -1,15 +1,16 @@
 import styled from "styled-components";
 
 export const Aside = styled.aside`
-  position: fixed;
+  position: relative;
   left: 0;
   width: 200px;
   background: #111;
   transition: all 0.2s ease-in-out;
-  height: 100%;
+  height: 100vh;
+  z-index: 2;
 
   &.close {
-    left: -200px;
+    margin-left: -200px;
   }
 
   button.close {
