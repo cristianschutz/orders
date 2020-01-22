@@ -21,8 +21,43 @@ export default function Dashboard() {
     ref.on(
       "value",
       function(snapshot) {
+        let total = 0;
         snapshot.forEach(element => {
-          setOrder(oldOrder => [...oldOrder, element.val()]);
+          let values = element.val();
+          let order =
+            values.order &&
+            values.order.map(item => {
+              total = total + Number(item.price);
+              let product = item.product
+                ? item.category +
+                  " - " +
+                  item.product +
+                  ": R$ " +
+                  item.productPrice
+                : "";
+
+              let additional = item.additional
+                ? " (" + item.additional + ": R$ " + item.additionalPrice + ")"
+                : "";
+              return (
+                product + additional + " x " + item.qty + " = R$" + item.price
+              );
+            });
+          values.order = values.order && order.join();
+          values.price = total;
+          let date = new Date(values.uid);
+          values.date =
+            date.getDate() +
+            "/" +
+            (date.getMonth() + 1) +
+            "/" +
+            date.getFullYear() +
+            " - " +
+            date.getHours() +
+            ":" +
+            date.getMinutes();
+          total = 0;
+          setOrder(oldOrder => [...oldOrder, values]);
         });
       },
       function(errorObject) {
@@ -41,9 +76,10 @@ export default function Dashboard() {
             { name: "Cliente", id: "client" },
             { name: "Produtos", id: "order" },
             { name: "Observação", id: "observation" },
-            { name: "Valor", id: "price" }
+            { name: "Valor", id: "price" },
+            { name: "Data", id: "date" }
           ]}
-          content={order}
+          content={order.reverse()}
           foot={[]}
         />
       </Content>

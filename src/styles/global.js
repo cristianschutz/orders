@@ -202,12 +202,12 @@ export const InputGroup = styled.div`
 export const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
+  height: 100vh;
 `;
 
 export const Content = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding-top: 50px;
+  height: calc(100vh - 50px);
+  overflow: scroll;
+  margin-top: 50px;
+  width: 100%;
 `;

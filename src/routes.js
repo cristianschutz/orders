@@ -18,7 +18,7 @@ export default function Routes() {
         <Route
           path="/"
           exact
-          component={() => (user ? <Dashboard /> : <Login />)}
+          component={() => (user ? <Client /> : <Login />)}
         />
         <Route path="/login" exact component={() => <Login />} />
         <Route
@@ -41,7 +41,7 @@ export default function Routes() {
         />
         <Route
           path="/history"
-          component={() => (user ? <History /> : <Login />)}
+          component={() => (user ? <Dashboard /> : <Login />)}
         />
         <Route
           path="/dashboard"
