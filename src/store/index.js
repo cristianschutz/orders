@@ -14,6 +14,10 @@ const optionsHamburger = [
   { name: "Calabresa", price: 1 },
   { name: "Pimentão", price: 2 }
 ];
+const optionsDog = [
+  { name: "Queijo", price: 1 },
+  { name: "Vinagrete", price: 1 }
+];
 export const catalog = [
   {
     name: "Hambúrguer",
@@ -30,13 +34,13 @@ export const catalog = [
   {
     name: "Hot Dog",
     options: [
-      { name: "Help Dog Simples", price: 7.5, options: [] },
-      { name: "Help Dog Duplo", price: 9.5, options: [] },
-      { name: "Help Dog Bacon", price: 12.0, options: [] },
-      { name: "Help Dog Calabresa", price: 12.0, options: [] },
-      { name: "Help Dog Salame", price: 12.0, options: [] },
-      { name: "Help Dog Frango", price: 12.0, options: [] },
-      { name: "Help Dog Strogonoff", price: 13, options: [] }
+      { name: "Help Dog Simples", price: 7.5, options: optionsDog },
+      { name: "Help Dog Duplo", price: 9.5, options: optionsDog },
+      { name: "Help Dog Bacon", price: 12.0, options: optionsDog },
+      { name: "Help Dog Calabresa", price: 12.0, options: optionsDog },
+      { name: "Help Dog Salame", price: 12.0, options: optionsDog },
+      { name: "Help Dog Frango", price: 12.0, options: optionsDog },
+      { name: "Help Dog Strogonoff", price: 13, options: optionsDog }
     ]
   },
   {

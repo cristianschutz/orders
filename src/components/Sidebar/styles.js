@@ -14,39 +14,39 @@ export const Aside = styled.aside`
   }
 
   button.close {
-    position: absolute;
+    align-items: center;
+    background: none;
+    border: 0;
+    display: flex;
+    height: 45px;
+    justify-content: center;
     left: 100%;
     margin-left: 15px;
+    outline: none;
+    padding: 0;
+    position: absolute;
     top: 2px;
     width: 35px;
-    height: 45px;
-    border: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: none;
-    outline: none;
 
     span {
       background: rgba(0, 0, 0, 0.5);
+      border-radius: 2px;
+      display: block;
       font-size: 0;
+      height: 4px;
       position: relative;
       width: 100%;
-      display: block;
-      height: 4px;
-      border-radius: 2px;
 
       &:before,
       &:after {
-        border-radius: inherit;
         background: inherit;
+        border-radius: inherit;
         content: "";
         display: block;
         height: 100%;
         position: absolute;
-        width: 100%;
         top: -10px;
+        width: 100%;
       }
 
       &:after {
@@ -56,17 +56,17 @@ export const Aside = styled.aside`
   }
 
   .logo {
-    padding: 10px 0;
-    display: flex;
     align-items: center;
+    display: flex;
     justify-content: center;
     margin-bottom: 20px;
+    padding: 10px 0;
 
     img {
-      max-width: 100%;
       display: block;
-      margin: 0 auto;
       height: 50px;
+      margin: 0 auto;
+      max-width: 100%;
     }
   }
 
@@ -77,12 +77,12 @@ export const Aside = styled.aside`
       display: block;
 
       a {
-        display: flex;
         align-items: center;
+        color: rgba(255, 255, 255, 0.5);
+        display: flex;
         font-size: 14px;
         font-weight: 400;
-        color: rgba(255, 255, 255, 0.5);
-        padding: 20px 10px;
+        padding: 5px 10px;
         text-decoration: none;
         transition: all 0.3s ease-in-out;
 

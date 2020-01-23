@@ -77,7 +77,7 @@ export default function Client() {
           />
         </InputGroup>
         <StepButtons>
-          <button onClick={e => history.push("/")}>VOLTAR</button>
+          <button onClick={e => history.push("/dashboard")}>DASHBOARD</button>
           <button type="submit">PRÓXIMO</button>
         </StepButtons>
       </form>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { auth } from "../../services/fireabase";
+// import { Link } from "react-router-dom";
+// import { auth } from "../../services/fireabase";
 import { useHistory } from "react-router-dom";
 
 import { database } from "../../services/fireabase";
@@ -16,7 +16,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     var ref = database.ref("orders");
-
+    var orders = [];
     // Attach an asynchronous callback to read the data at our posts reference
     ref.on(
       "value",
@@ -29,21 +29,26 @@ export default function Dashboard() {
             values.order.map(item => {
               total = total + Number(item.price);
               let product = item.product
-                ? item.category +
+                ? "<strong>" +
+                  item.category +
                   " - " +
                   item.product +
-                  ": R$ " +
+                  "</strong>: R$ " +
                   item.productPrice
                 : "";
 
               let additional = item.additional
-                ? " (" + item.additional + ": R$ " + item.additionalPrice + ")"
+                ? "<br /> (" +
+                  item.additional +
+                  ": R$ " +
+                  item.additionalPrice +
+                  ")"
                 : "";
               return (
                 product + additional + " x " + item.qty + " = R$" + item.price
               );
             });
-          values.order = values.order && order.join();
+          values.order = values.order && order.join("<br />");
           values.price = total;
           let date = new Date(values.uid);
           values.date =
@@ -57,8 +62,9 @@ export default function Dashboard() {
             ":" +
             date.getMinutes();
           total = 0;
-          setOrder(oldOrder => [...oldOrder, values]);
+          orders = [...orders, values];
         });
+        setOrder(orders);
       },
       function(errorObject) {
         console.log("The read failed: " + errorObject.code);
@@ -71,17 +77,19 @@ export default function Dashboard() {
       <TopBar />
       <Sidebar />
       <Content>
-        <Table
-          head={[
-            { name: "Cliente", id: "client" },
-            { name: "Produtos", id: "order" },
-            { name: "Observação", id: "observation" },
-            { name: "Valor", id: "price" },
-            { name: "Data", id: "date" }
-          ]}
-          content={order.reverse()}
-          foot={[]}
-        />
+        {order.length >= 1 && (
+          <Table
+            head={[
+              { name: "Cliente", id: "client" },
+              { name: "Produtos", id: "order" },
+              { name: "Observação", id: "observation" },
+              { name: "Valor", id: "price" },
+              { name: "Data", id: "date" }
+            ]}
+            content={order.reverse()}
+            foot={[]}
+          />
+        )}
       </Content>
     </Wrapper>
   );

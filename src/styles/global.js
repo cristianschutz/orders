@@ -209,5 +209,6 @@ export const Content = styled.div`
   height: calc(100vh - 50px);
   overflow: scroll;
   margin-top: 50px;
+  padding: 20px;
   width: 100%;
 `;
